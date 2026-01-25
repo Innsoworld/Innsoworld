@@ -1,0 +1,467 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Solution</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="A global innovation platform where real world problems are shown on a map and solved step by step through questioning, research, and solution design.">
+
+  <meta name="author" content="Yasir">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #020617 0%, #0f172a 70%, #020617 100%);
+      color: #e5e7eb;
+    }
+
+    header {
+      background: rgba(2,6,23,0.95);
+      padding: 30px 20px 24px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+    }
+
+    h2 {
+      font-size: 26px;
+      margin-bottom: 6px;
+      color: #f8fafc;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 1.7;
+      color: #cbd5f5;
+      max-width: 760px;
+      margin: auto;
+    }
+
+    /* JOURNEY BAR */
+    #journey {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 18px auto 10px;
+      font-size: 12px;
+    }
+
+    .step {
+      padding: 6px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      color: #94a3b8;
+    }
+
+    .step.done { color: #38bdf8; }
+    .step.active {
+      background: #38bdf8;
+      color: #020617;
+      font-weight: bold;
+    }
+
+    .line {
+      width: 26px;
+      height: 2px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    section {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px 22px 40px;
+    }
+
+    .keywords {
+      margin: 10px 0 22px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(255,255,255,0.06);
+      padding: 7px 14px;
+      border-radius: 18px;
+      margin: 6px 6px 0 0;
+      font-size: 13px;
+      color: #38bdf8;
+    }
+
+    #purposeNote {
+      background: rgba(255,255,255,0.04);
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 180px;
+      border-radius: 16px;
+      padding: 16px;
+      border: none;
+      background: rgba(255,255,255,0.05);
+      color: #e5e7eb;
+      margin-top: 18px;
+      font-size: 14px;
+      line-height: 1.6;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 1px #38bdf8;
+    }
+
+    #thinkPause {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #cbd5f5;
+      opacity: 0.85;
+    }
+
+    #safeNote {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .focusMode textarea {
+      background: rgba(255,255,255,0.08);
+    }
+
+    button {
+      padding: 14px 30px;
+      background: linear-gradient(145deg, #38bdf8, #0ea5e9);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      margin-top: 28px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #020617;
+    }
+
+    #editLater {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    /* FLOATING THINKERS */
+    @keyframes floatSlow {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
+    }
+
+    #thinker, #tesla, #kalam {
+      position: fixed;
+      width: 220px;
+      pointer-events: none;
+      animation: floatSlow 5s ease-in-out infinite;
+    }
+
+    #thinker { right:-260px; bottom:80px; z-index:9999; transition:right 1s; }
+    #tesla { left:-260px; bottom:80px; z-index:9998; transition:left 1s; }
+    #kalam { right:-260px; bottom:40px; z-index:9997; transition:right 1s; }
+
+    .cloud {
+      background:white;
+      color:#020617;
+      padding:14px 16px;
+      border-radius:22px;
+      font-size:13px;
+      line-height:1.5;
+      opacity:0;
+      transition:opacity 0.8s;
+    }
+
+   /* THREE DOT */
+#menuDot {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 10001;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #e5e7eb;
+}
+
+#menuDot:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* LEFT SLIDE MENU */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 240px;
+  height: 100vh;
+  background: #020617;
+  padding: 20px 16px;
+  transition: left 0.35s ease;
+  z-index: 10000;
+  box-shadow: 8px 0 30px rgba(0,0,0,0.6);
+}
+
+#sideMenu.open {
+  left: 0;
+}
+
+/* HEADER */
+.menuHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+#menuAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #38bdf8;
+}
+
+.menuName {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.menuSub {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ITEMS */
+.menuItem {
+  padding: 12px 10px;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  transition: background 0.25s;
+}
+
+.menuItem:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.menuItem.logout {
+  color: #ef4444;
+}
+
+
+  </style>
+</head>
+
+<body>
+<!-- THREE DOT ICON -->
+<div id="menuDot" onclick="toggleMenu()">⋮</div>
+
+<!-- LEFT SIDE MENU -->
+<div id="sideMenu">
+  <div class="menuHeader">
+    <img id="menuAvatar" src="images/default-user.png">
+    <div>
+      <div class="menuName" id="menuUserName">Hi, Innovator</div>
+      <div class="menuSub">Innsoworld</div>
+    </div>
+  </div>
+
+  <div class="menuItem" onclick="goSolutions()">💡 My Solutions</div>
+  <div class="menuItem" onclick="goPrototypes()">🛠 My Prototypes</div>
+  <div class="menuItem" onclick="goPitches()">📄 My Pitches</div>
+  <div class="menuItem" onclick="goJourney()">🧭 My Journey</div>
+  <div class="menuItem" onclick="goHow()">ℹ️ How Innsoworld Works</div>
+
+  <div class="menuItem logout" onclick="logout()">⏻ Logout</div>
+</div>
+
+
+<header>
+  <h2 id="problemTitle"></h2>
+  <h3>Now think like an innovator. Small ideas matter.</h3>
+</header>
+
+<div id="journey">
+  <div class="step done">Problem</div>
+  <div class="line"></div>
+  <div class="step done">Research</div>
+  <div class="line"></div>
+  <div class="step active">Solution</div>
+</div>
+
+<section>
+
+  <div class="keywords">
+  <div class="tag">small solution</div>
+  <div class="tag">low cost</div>
+  <div class="tag">local people</div>
+  <div class="tag">real life use</div>
+  <div class="tag">simple design</div>
+  <div class="tag">easy to build</div>
+  <div class="tag">reduce problem</div>
+  <div class="tag">environment friendly</div>
+</div>
+
+
+  <div id="purposeNote">
+    This problem affects real people every day.  
+    Even a small improvement can change someone’s life.
+  </div>
+
+  <textarea id="solutionText" disabled
+    placeholder="Think step by step. What small change can reduce this problem?"></textarea>
+
+  <div id="thinkPause">Take 10 seconds. Think calmly before you write.</div>
+  <div id="safeNote">This is your private thinking space. No one is judging.</div>
+
+  <button onclick="submitSolution()">Submit Solution</button>
+  <div id="editLater">You can return anytime to improve this solution.</div>
+
+</section>
+
+<!-- AVATARS (UNCHANGED) -->
+<div id="thinker">
+  <img src="images/einstein.png" width="140">
+  <div id="thoughtCloud" class="cloud"></div>
+</div>
+
+<div id="tesla">
+  <img src="images/tesla.png" width="130">
+  <div id="teslaCloud" class="cloud"></div>
+</div>
+
+<div id="kalam">
+  <img src="images/kalam.png" width="130">
+  <div id="kalamCloud" class="cloud"></div>
+</div>
+
+<script src="problems.js"></script>
+<script src="reward.js"></script>
+
+<script>
+  const id = new URLSearchParams(location.search).get("id");
+  if (!id || !PROBLEMS[id]) location.href = "map.html";
+
+  const p = PROBLEMS[id];
+  problemTitle.innerText = p.title + " – Solution Design";
+
+  setTimeout(() => {
+    solutionText.disabled = false;
+    thinkPause.innerText = "Now write your idea. Your first idea does not need to be perfect.";
+  }, 10000);
+
+  setTimeout(() => {
+    thoughtCloud.innerText = "What would you do first?";
+    thinker.style.right = "20px";
+    setTimeout(() => thoughtCloud.style.opacity = "1", 800);
+    setTimeout(() => {
+      thoughtCloud.style.opacity = "0";
+      thinker.style.right = "-260px";
+    }, 5000);
+  }, 5000);
+
+  setTimeout(() => {
+    teslaCloud.innerText = "Every system can be redesigned to work better.";
+    tesla.style.left = "20px";
+    setTimeout(() => teslaCloud.style.opacity = "1", 800);
+    setTimeout(() => {
+      teslaCloud.style.opacity = "0";
+      tesla.style.left = "-260px";
+    }, 5000);
+  }, 12000);
+
+  setTimeout(() => {
+    kalamCloud.innerText = "Dream with purpose, and work to serve humanity.";
+    kalam.style.right = "20px";
+    setTimeout(() => kalamCloud.style.opacity = "1", 800);
+    setTimeout(() => {
+      kalamCloud.style.opacity = "0";
+      kalam.style.right = "-260px";
+      document.body.classList.add("focusMode");
+    }, 5000);
+  }, 19000);
+
+  function submitSolution() {
+    const text = solutionText.value.trim();
+    if (text.length < 60 || !text.includes(" ")) {
+      alert("Explain your solution clearly and practically.");
+      return;
+    }
+
+    let data = JSON.parse(localStorage.getItem("userData")) || {};
+    data[id] = data[id] || {};
+    data[id].solution = text;
+    localStorage.setItem("userData", JSON.stringify(data));
+
+    giveReward(id, "solution", 40);
+
+    if (
+      text.includes("people") ||
+      text.includes("daily") ||
+      text.includes("cost") ||
+      text.includes("local") ||
+      text.includes("environment")
+    ) {
+      giveReward(id, "thinking", 10);
+    }
+
+    location.href = "solution-done.html?id=" + id;
+  }
+</script>
+<script>
+const sideMenu = document.getElementById("sideMenu");
+
+function toggleMenu() {
+  sideMenu.classList.toggle("open");
+}
+
+// close when clicking outside
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && e.target.id !== "menuDot") {
+    sideMenu.classList.remove("open");
+  }
+});
+
+// navigation
+function goSolutions() { location.href = "my-solutions.html"; }
+function goPrototypes() { location.href = "my-prototypes.html"; }
+function goPitches() { location.href = "my-pitches.html"; }
+function goJourney() { location.href = "journey.html"; }
+function goHow() { location.href = "about.html"; }
+
+function logout() {
+  localStorage.clear();
+  location.href = "login.html";
+}
+
+// load user info
+const user = JSON.parse(localStorage.getItem("user"));
+if (user) {
+  document.getElementById("menuUserName").innerText = "Hi, " + user.name;
+  if (user.photo) document.getElementById("menuAvatar").src = user.photo;
+}
+</script>
+<h6>
+<footer align="center">
+  © 2026 Yasir – Original Innovation Project (all right reserved)
+</footer></h6>
+
+
+</body>
+</html>
+
+

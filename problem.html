@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Problem</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="A global innovation platform where real world problems are shown on a map and solved step by step through questioning, research, and solution design.">
+
+  <meta name="keywords" content="innovation, problem solving, world problems, environment, research, solutions, students, social impact">
+
+  <meta name="author" content="Yasir">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #020617 0%, #0f172a 70%, #020617 100%);
+      color: #e5e7eb;
+    }
+
+    header {
+      background: rgba(2,6,23,0.9);
+      padding: 14px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+
+    /* JOURNEY */
+    #journey {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin: 14px 0 6px;
+      font-size: 12px;
+    }
+
+    .step {
+      padding: 6px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      color: #94a3b8;
+    }
+
+    .step.active {
+      background: #38bdf8;
+      color: #020617;
+      font-weight: bold;
+    }
+
+    .line {
+      width: 26px;
+      height: 2px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    .progress-wrap {
+      height: 6px;
+      background: #1e293b;
+    }
+
+    .progress {
+      height: 6px;
+      width: 10%;
+      background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+      transition: width .6s ease;
+    }
+
+    section {
+      max-width: 900px;
+      margin: auto;
+      padding: 28px 22px 40px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 14px;
+      color: #f8fafc;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 16px;
+      margin-bottom: 22px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.45);
+    }
+
+    .purposeNote {
+      background: rgba(255,255,255,0.04);
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 22px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    h2 {
+      color: #38bdf8;
+      margin-top: 28px;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.7;
+      opacity: 0.95;
+    }
+
+    ul {
+      padding-left: 18px;
+    }
+
+    li {
+      margin-bottom: 8px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-top: 18px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+    }
+
+    button {
+      padding: 14px 30px;
+      background: linear-gradient(145deg, #38bdf8, #0ea5e9);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      margin-top: 40px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #020617;
+      box-shadow: 0 14px 40px rgba(56,189,248,0.45);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 50px rgba(56,189,248,0.6);
+    }
+
+    #flyingToken {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      font-size: 26px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.9s ease;
+      z-index: 9999;
+    }
+
+    /* REALITY COUNTER */
+    #realityCounter {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(2,6,23,0.96);
+      z-index: 99999;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+   /* THREE DOT */
+#menuDot {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 10001;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #e5e7eb;
+}
+
+#menuDot:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* LEFT SLIDE MENU */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 240px;
+  height: 100vh;
+  background: #020617;
+  padding: 20px 16px;
+  transition: left 0.35s ease;
+  z-index: 10000;
+  box-shadow: 8px 0 30px rgba(0,0,0,0.6);
+}
+
+#sideMenu.open {
+  left: 0;
+}
+
+/* HEADER */
+.menuHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+#menuAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #38bdf8;
+}
+
+.menuName {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.menuSub {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ITEMS */
+.menuItem {
+  padding: 12px 10px;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  transition: background 0.25s;
+}
+
+.menuItem:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.menuItem.logout {
+  color: #ef4444;
+}
+
+
+  </style>
+</head>
+
+<body>
+
+<!-- THREE DOT ICON -->
+<div id="menuDot" onclick="toggleMenu()">⋮</div>
+
+<!-- LEFT SIDE MENU -->
+<div id="sideMenu">
+  <div class="menuHeader">
+    <img id="menuAvatar" src="images/default-user.png">
+    <div>
+      <div class="menuName" id="menuUserName">Hi, Innovator</div>
+      <div class="menuSub">Innsoworld</div>
+    </div>
+  </div>
+
+  <div class="menuItem" onclick="goSolutions()">💡 My Solutions</div>
+  <div class="menuItem" onclick="goPrototypes()">🛠 My Prototypes</div>
+  <div class="menuItem" onclick="goPitches()">📄 My Pitches</div>
+  <div class="menuItem" onclick="goJourney()">🧭 My Journey</div>
+  <div class="menuItem" onclick="goHow()">ℹ️ How Innsoworld Works</div>
+
+  <div class="menuItem logout" onclick="logout()">⏻ Logout</div>
+</div>
+
+
+<header>
+  <div>🌍 World Problems</div>
+  <div id="tokenHeader">Tokens: 0 | Level: Observer</div>
+</header>
+
+<div id="journey">
+  <div class="step active">Problem</div>
+  <div class="line"></div>
+  <div class="step">Questions</div>
+  <div class="line"></div>
+  <div class="step">Research</div>
+  <div class="line"></div>
+  <div class="step">Solution</div>
+</div>
+
+<div class="progress-wrap">
+  <div id="progressBar" class="progress"></div>
+</div>
+
+<section>
+
+  <h1 id="title"></h1>
+
+  <img id="img">
+
+  <div class="purposeNote">
+    This problem is not abstract.  
+    It affects real lives every day, even if we do not see it directly.
+  </div>
+
+  <div class="card">
+    <h2>Overview</h2>
+    <p id="overview"></p>
+  </div>
+
+  <div class="card">
+    <h2>Main Causes</h2>
+    <ul id="causes"></ul>
+  </div>
+
+  <div class="card">
+    <h2>Effects on Living Organisms</h2>
+    <ul id="effects"></ul>
+  </div>
+
+  <div class="card">
+    <h2>Key Contributing Factors</h2>
+    <ul id="factors"></ul>
+  </div>
+
+  <button onclick="next()">Next → Questions</button>
+
+</section>
+
+<div id="flyingToken">🪙</div>
+
+<div id="realityCounter">
+  <h2>You are observing a real problem</h2>
+
+  <p id="timeSpent" style="margin-top:14px;"></p>
+
+  <p style="margin-top:16px; opacity:0.9;">
+    If nothing changes, this problem will continue tomorrow and next year.
+  </p>
+
+  <h3 style="margin-top:30px;">What will you do next?</h3>
+
+  <button onclick="chooseAction('learn')" style="margin:10px;">
+    Understand it deeper
+  </button>
+
+  <button onclick="chooseAction('solve')" style="margin:10px;">
+    Think of a solution
+  </button>
+
+  <br><br>
+
+  <button onclick="chooseAction('leave')" style="background:#1e293b;color:#94a3b8;font-size:13px;">
+    Leave for now
+  </button>
+</div>
+
+<script src="problems.js"></script>
+<script src="reward.js"></script>
+
+
+<script>
+  const id = new URLSearchParams(location.search).get("id");
+  if (!id || !PROBLEMS[id]) location.href = "index.html";
+
+  const p = PROBLEMS[id];
+
+  document.getElementById("title").innerText = p.title + " – " + p.subtitle;
+  document.getElementById("img").src = p.image;
+  document.getElementById("overview").innerText = p.overview;
+
+  p.causes.forEach(x => causes.innerHTML += "<li>" + x + "</li>");
+  p.effects.forEach(x => effects.innerHTML += "<li>" + x + "</li>");
+  p.factors.forEach(x => factors.innerHTML += "<li>" + x + "</li>");
+
+  document.getElementById("progressBar").style.width = "10%";
+
+  function refreshHeader() {
+    const total = getTotalTokens();
+    tokenHeader.innerText = "Tokens: " + total + " | Level: " + getLevelName(total);
+  }
+
+  refreshHeader();
+
+  function flyToken() {
+    const token = flyingToken;
+    const headerRect = tokenHeader.getBoundingClientRect();
+
+    token.style.opacity = "1";
+    token.style.left = "50%";
+    token.style.bottom = "40px";
+
+    setTimeout(() => {
+      token.style.left = headerRect.left + headerRect.width / 2 + "px";
+      token.style.bottom = (window.innerHeight - headerRect.top) + "px";
+      token.style.transform = "scale(0.4)";
+    }, 50);
+
+    setTimeout(() => {
+      token.style.opacity = "0";
+      refreshHeader();
+    }, 900);
+  }
+
+  function next() {
+    giveReward(id, "choose", 10);
+    flyToken();
+    setTimeout(() => {
+      location.href = "level-unlock.html?id=" + id + "&level=1";
+    }, 900);
+  }
+
+  let startTime = Date.now();
+  setTimeout(() => {
+    const seconds = Math.floor((Date.now() - startTime) / 1000);
+    timeSpent.innerText = "You have spent " + seconds + " seconds understanding this problem.";
+    realityCounter.style.display = "block";
+  }, 10000);
+
+  function chooseAction(type) {
+    realityCounter.style.display = "none";
+    if (type === "leave") location.href = "index.html";
+  }
+
+  document.addEventListener("contextmenu", e => e.preventDefault());
+  document.addEventListener("keydown", e => {
+    if (e.ctrlKey && (e.key === "u" || e.key === "s" || e.key === "c")) e.preventDefault();
+  });
+</script>
+<h6>
+<footer align="center">
+  © 2026 Yasir – Original Innovation Project (all right reserved)
+</footer></h6>
+
+<script>
+const sideMenu = document.getElementById("sideMenu");
+
+function toggleMenu() {
+  sideMenu.classList.toggle("open");
+}
+
+// close when clicking outside
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && e.target.id !== "menuDot") {
+    sideMenu.classList.remove("open");
+  }
+});
+
+// navigation
+function goSolutions() { location.href = "my-solutions.html"; }
+function goPrototypes() { location.href = "my-prototypes.html"; }
+function goPitches() { location.href = "my-pitches.html"; }
+function goJourney() { location.href = "journey.html"; }
+function goHow() { location.href = "about.html"; }
+
+function logout() {
+  localStorage.clear();
+  location.href = "login.html";
+}
+
+// load user info
+const user = JSON.parse(localStorage.getItem("user"));
+if (user) {
+  document.getElementById("menuUserName").innerText = "Hi, " + user.name;
+  if (user.photo) document.getElementById("menuAvatar").src = user.photo;
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Questions</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="A global innovation platform where real world problems are shown on a map and solved step by step through questioning, research, and solution design.">
+
+  <meta name="keywords" content="innovation, problem solving, world problems, environment, research, solutions, students, social impact">
+
+  <meta name="author" content="Yasir">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #020617 0%, #0f172a 70%, #020617 100%);
+      color: #e5e7eb;
+    }
+
+    header {
+      background: rgba(2,6,23,0.9);
+      padding: 14px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      font-size: 14px;
+    }
+
+    /* JOURNEY BAR */
+    #journey {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin: 14px 0 6px;
+      font-size: 12px;
+    }
+
+    .step {
+      padding: 6px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.05);
+      color: #94a3b8;
+    }
+
+    .step.done {
+      color: #38bdf8;
+    }
+
+    .step.active {
+      background: #38bdf8;
+      color: #020617;
+      font-weight: bold;
+    }
+
+    .line {
+      width: 26px;
+      height: 2px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    .progress-wrap {
+      height: 6px;
+      background: #1e293b;
+    }
+
+    .progress {
+      height: 6px;
+      width: 30%;
+      background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+      transition: width .6s ease;
+    }
+
+    section {
+      max-width: 900px;
+      margin: auto;
+      padding: 28px 22px 40px;
+    }
+
+    h2 {
+      font-size: 26px;
+      margin-bottom: 8px;
+      color: #f8fafc;
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 1.7;
+      color: #cbd5f5;
+      margin-bottom: 24px;
+      max-width: 760px;
+    }
+
+    .purposeNote {
+      background: rgba(255,255,255,0.04);
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    .box {
+      background: rgba(255,255,255,0.05);
+      padding: 16px 18px;
+      margin: 14px 0;
+      border-radius: 16px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+      line-height: 1.6;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 22px rgba(56,189,248,0.35);
+    }
+
+    button {
+      padding: 14px 30px;
+      background: linear-gradient(145deg, #38bdf8, #0ea5e9);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      margin-top: 36px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #020617;
+      box-shadow: 0 14px 40px rgba(56,189,248,0.45);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 50px rgba(56,189,248,0.6);
+    }
+
+    #flyingToken {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      font-size: 26px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.9s ease;
+      z-index: 9999;
+    }
+
+    /* THREE DOT */
+#menuDot {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 10001;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #e5e7eb;
+}
+
+#menuDot:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* LEFT SLIDE MENU */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 240px;
+  height: 100vh;
+  background: #020617;
+  padding: 20px 16px;
+  transition: left 0.35s ease;
+  z-index: 10000;
+  box-shadow: 8px 0 30px rgba(0,0,0,0.6);
+}
+
+#sideMenu.open {
+  left: 0;
+}
+
+/* HEADER */
+.menuHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+#menuAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #38bdf8;
+}
+
+.menuName {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.menuSub {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ITEMS */
+.menuItem {
+  padding: 12px 10px;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  transition: background 0.25s;
+}
+
+.menuItem:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.menuItem.logout {
+  color: #ef4444;
+}
+
+
+  </style>
+</head>
+
+<body>
+<!-- THREE DOT ICON -->
+<div id="menuDot" onclick="toggleMenu()">⋮</div>
+
+<!-- LEFT SIDE MENU -->
+<div id="sideMenu">
+  <div class="menuHeader">
+    <img id="menuAvatar" src="images/default-user.png">
+    <div>
+      <div class="menuName" id="menuUserName">Hi, Innovator</div>
+      <div class="menuSub">Innsoworld</div>
+    </div>
+  </div>
+
+  <div class="menuItem" onclick="goSolutions()">💡 My Solutions</div>
+  <div class="menuItem" onclick="goPrototypes()">🛠 My Prototypes</div>
+  <div class="menuItem" onclick="goPitches()">📄 My Pitches</div>
+  <div class="menuItem" onclick="goJourney()">🧭 My Journey</div>
+  <div class="menuItem" onclick="goHow()">ℹ️ How Innsoworld Works</div>
+
+  <div class="menuItem logout" onclick="logout()">⏻ Logout</div>
+</div>
+
+<header>
+  <div>🌍 World Problems</div>
+  <div id="tokenHeader">Tokens: 0 | Level: Observer</div>
+</header>
+
+<div id="journey">
+  <div class="step done">Problem</div>
+  <div class="line"></div>
+  <div class="step active">Questions</div>
+  <div class="line"></div>
+  <div class="step">Research</div>
+  <div class="line"></div>
+  <div class="step">Solution</div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress"></div>
+</div>
+
+<section>
+
+  <h2 id="title"></h2>
+
+  <div class="purposeNote">
+    Innovation does not begin with answers.  
+    It begins with the courage to ask better questions.
+  </div>
+
+  <h3>
+    Read each question slowly.  
+    You do not need to answer them now. <br>
+    Let them shape how you observe and research this problem.<br>
+    Questions are the seed of innovation.<br>
+    this questions are just examples to get you thinking.<br>
+    Now, try your own questions as many as you can.
+  </h3>
+
+  <div id="list"></div>
+
+  <button onclick="next()">Proceed to Research</button>
+
+</section>
+
+<div id="flyingToken">🪙</div>
+
+
+<script src="problems.js"></script>
+<script src="reward.js"></script>
+
+<script>
+  const id = new URLSearchParams(location.search).get("id");
+  if (!id || !PROBLEMS[id]) location.href = "index.html";
+
+  const p = PROBLEMS[id];
+
+  document.getElementById("title").innerText = p.title + " – Questions";
+
+  p.questions.forEach(q => {
+    const d = document.createElement("div");
+    d.className = "box";
+    d.innerText = q;
+    document.getElementById("list").appendChild(d);
+  });
+
+  function refreshHeader() {
+    const total = getTotalTokens();
+    tokenHeader.innerText =
+      "Tokens: " + total + " | Level: " + getLevelName(total);
+  }
+
+  refreshHeader();
+
+  function flyToken() {
+    const token = flyingToken;
+    const headerRect = tokenHeader.getBoundingClientRect();
+
+    token.style.opacity = "1";
+    token.style.left = "50%";
+    token.style.bottom = "40px";
+
+    setTimeout(() => {
+      token.style.left = headerRect.left + headerRect.width / 2 + "px";
+      token.style.bottom = (window.innerHeight - headerRect.top) + "px";
+      token.style.transform = "scale(0.4)";
+    }, 50);
+
+    setTimeout(() => {
+      token.style.opacity = "0";
+      refreshHeader();
+    }, 900);
+  }
+
+  function next() {
+    giveReward(id, "questions", 20);
+    flyToken();
+
+    setTimeout(() => {
+      location.href = "level-unlock.html?id=" + id + "&level=2";
+    }, 900);
+  }
+
+  document.addEventListener("contextmenu", e => e.preventDefault());
+  document.addEventListener("keydown", e => {
+    if (e.ctrlKey && (e.key === "u" || e.key === "s" || e.key === "c")) {
+      e.preventDefault();
+    }
+  });
+</script>
+<script>
+const sideMenu = document.getElementById("sideMenu");
+
+function toggleMenu() {
+  sideMenu.classList.toggle("open");
+}
+
+// close when clicking outside
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && e.target.id !== "menuDot") {
+    sideMenu.classList.remove("open");
+  }
+});
+
+// navigation
+function goSolutions() { location.href = "my-solutions.html"; }
+function goPrototypes() { location.href = "my-prototypes.html"; }
+function goPitches() { location.href = "my-pitches.html"; }
+function goJourney() { location.href = "journey.html"; }
+function goHow() { location.href = "about.html"; }
+
+function logout() {
+  localStorage.clear();
+  location.href = "login.html";
+}
+
+// load user info
+const user = JSON.parse(localStorage.getItem("user"));
+if (user) {
+  document.getElementById("menuUserName").innerText = "Hi, " + user.name;
+  if (user.photo) document.getElementById("menuAvatar").src = user.photo;
+}
+</script>
+
+<h6>
+<footer align="center">
+  © 2026 Yasir – Original Innovation Project (all right reserved)
+</footer></h6>
+
+</body>
+</html>

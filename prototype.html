@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prototype Thinking</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description" content="Prototype stage – turn ideas into testable reality.">
+<meta name="author" content="Yasir">
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #020617 0%, #0f172a 70%, #020617 100%);
+    color: #e5e7eb;
+  }
+
+  header {
+    background: rgba(2,6,23,0.95);
+    padding: 26px 20px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+  }
+
+  h2 {
+    color: #38bdf8;
+    margin-bottom: 6px;
+  }
+
+  h3 {
+    font-weight: normal;
+    font-size: 16px;
+    color: #cbd5f5;
+    max-width: 760px;
+    margin: auto;
+    line-height: 1.7;
+  }
+
+  section {
+    max-width: 900px;
+    margin: auto;
+    padding: 30px 22px 40px;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+  }
+
+  .card h4 {
+    color: #38bdf8;
+    margin-bottom: 8px;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    border-radius: 14px;
+    padding: 14px;
+    border: none;
+    background: rgba(255,255,255,0.06);
+    color: #e5e7eb;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical;
+  }
+
+  textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px #38bdf8;
+  }
+
+  button {
+    padding: 14px 30px;
+    background: linear-gradient(145deg, #38bdf8, #0ea5e9);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #020617;
+    box-shadow: 0 14px 40px rgba(56,189,248,0.45);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 50px rgba(56,189,248,0.6);
+  }
+
+  .note {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #94a3b8;
+  }
+
+  @keyframes floatSlow {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+#tesla {
+  position: fixed;
+  left: -260px;
+  bottom: 70px;
+  width: 220px;
+  z-index: 9998;
+  pointer-events: none;
+  transition: left 1s ease-in-out;
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+#tesla img {
+  width: 130px;
+}
+
+#teslaCloud {
+  position: absolute;
+  top: -70px;
+  right: -120px;
+  width: 260px;
+  background: white;
+  color: #020617;
+  padding: 16px 18px;
+  border-radius: 22px;
+  font-size: 13px;
+  line-height: 1.55;
+  box-shadow: 0 14px 36px rgba(0,0,0,0.35);
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+/* THREE DOT */
+#menuDot {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  font-size: 22px;
+  cursor: pointer;
+  z-index: 10001;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #e5e7eb;
+}
+
+#menuDot:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/* LEFT SLIDE MENU */
+#sideMenu {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 240px;
+  height: 100vh;
+  background: #020617;
+  padding: 20px 16px;
+  transition: left 0.35s ease;
+  z-index: 10000;
+  box-shadow: 8px 0 30px rgba(0,0,0,0.6);
+}
+
+#sideMenu.open {
+  left: 0;
+}
+
+/* HEADER */
+.menuHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+#menuAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #38bdf8;
+}
+
+.menuName {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.menuSub {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ITEMS */
+.menuItem {
+  padding: 12px 10px;
+  font-size: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  transition: background 0.25s;
+}
+
+.menuItem:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.menuItem.logout {
+  color: #ef4444;
+}
+
+</style>
+</head>
+
+<body>
+ <!-- THREE DOT ICON -->
+<div id="menuDot" onclick="toggleMenu()">⋮</div>
+
+<!-- LEFT SIDE MENU -->
+<div id="sideMenu">
+  <div class="menuHeader">
+    <img id="menuAvatar" src="images/default-user.png">
+    <div>
+      <div class="menuName" id="menuUserName">Hi, Innovator</div>
+      <div class="menuSub">Innsoworld</div>
+    </div>
+  </div>
+
+  <div class="menuItem" onclick="goSolutions()">💡 My Solutions</div>
+  <div class="menuItem" onclick="goPrototypes()">🛠 My Prototypes</div>
+  <div class="menuItem" onclick="goPitches()">📄 My Pitches</div>
+  <div class="menuItem" onclick="goJourney()">🧭 My Journey</div>
+  <div class="menuItem" onclick="goHow()">ℹ️ How Innsoworld Works</div>
+
+  <div class="menuItem logout" onclick="logout()">⏻ Logout</div>
+</div>
+
+  <div id="tesla">
+  <img src="images/tesla.png" alt="Nikola Tesla">
+  <div id="teslaCloud">
+    An idea without execution is nothing.<br>
+    Prototyping is where imagination becomes reality.
+  </div>
+</div>
+
+<header>
+  <h2 id="problemTitle"></h2>
+  <h3>
+    Ideas matter.  
+    Prototypes change reality.  
+    Think small. Build fast. Learn faster.
+  </h3>
+</header>
+
+<section>
+
+  <div class="card">
+    <h4>🧩 What will you build first?</h4>
+    <textarea id="build"
+      placeholder="Describe the simplest version of your solution.
+Example: a small model, a mock-up, a simple experiment."
+    ></textarea>
+  </div>
+
+  <div class="card">
+    <h4>🛠 Materials / tools needed</h4>
+    <textarea id="materials"
+      placeholder="List cheap, available materials or tools.
+Example: cardboard, plastic bottle, basic electronics, software, etc."
+    ></textarea>
+  </div>
+
+  <div class="card">
+    <h4>⚠️ What might fail?</h4>
+    <textarea id="fail"
+      placeholder="What could go wrong?
+Be honest. Failure here saves time later."
+    ></textarea>
+  </div>
+
+  <div class="card">
+    <h4>🧪 How will you test it?</h4>
+    <textarea id="test"
+      placeholder="How will you know it works?
+Example: user feedback, measurement, observation."
+    ></textarea>
+  </div>
+
+  <button onclick="savePrototype()">Save Prototype Thinking</button>
+
+  <div class="note">
+    This is not final. Real builders improve prototypes again and again.
+  </div>
+
+</section>
+
+
+<script src="problems.js"></script>
+<script src="reward.js"></script>
+
+<script>
+  const id = new URLSearchParams(location.search).get("id");
+  if (!id || !PROBLEMS[id]) location.href = "map.html";
+
+  const p = PROBLEMS[id];
+  document.getElementById("problemTitle").innerText =
+    p.title + " – Prototyping";
+
+  function savePrototype() {
+    const build = buildEl.value.trim();
+    const materials = materialsEl.value.trim();
+    const fail = failEl.value.trim();
+    const test = testEl.value.trim();
+    location.href = "pitch.html?id=" + id;
+
+
+
+    if (build.length < 20 || test.length < 20) {
+      alert("Think practically. Describe what you will build and how you will test.");
+      return;
+    }
+
+    let data = JSON.parse(localStorage.getItem("userData")) || {};
+    data[id] = data[id] || {};
+    data[id].prototype = { build, materials, fail, test };
+    localStorage.setItem("userData", JSON.stringify(data));
+
+    giveReward(id, "prototype", 50);
+
+    alert("Prototype thinking saved. You are now a builder.");
+  }
+
+  const buildEl = document.getElementById("build");
+  const materialsEl = document.getElementById("materials");
+  const failEl = document.getElementById("fail");
+  const testEl = document.getElementById("test");
+
+  // load saved data if exists
+  const saved = JSON.parse(localStorage.getItem("userData")) || {};
+  if (saved[id]?.prototype) {
+    buildEl.value = saved[id].prototype.build || "";
+    materialsEl.value = saved[id].prototype.materials || "";
+    failEl.value = saved[id].prototype.fail || "";
+    testEl.value = saved[id].prototype.test || "";
+  }
+
+  setTimeout(() => {
+  const tesla = document.getElementById("tesla");
+  const cloud = document.getElementById("teslaCloud");
+
+  tesla.style.left = "20px";
+
+  setTimeout(() => {
+    cloud.style.opacity = "1";
+  }, 800);
+
+  setTimeout(() => {
+    cloud.style.opacity = "0";
+    tesla.style.left = "-260px";
+  }, 6000);
+}, 5000);
+
+</script>
+<script>
+const sideMenu = document.getElementById("sideMenu");
+
+function toggleMenu() {
+  sideMenu.classList.toggle("open");
+}
+
+// close when clicking outside
+document.addEventListener("click", (e) => {
+  if (!sideMenu.contains(e.target) && e.target.id !== "menuDot") {
+    sideMenu.classList.remove("open");
+  }
+});
+
+// navigation
+function goSolutions() { location.href = "my-solutions.html"; }
+function goPrototypes() { location.href = "my-prototypes.html"; }
+function goPitches() { location.href = "my-pitches.html"; }
+function goJourney() { location.href = "journey.html"; }
+function goHow() { location.href = "about.html"; }
+
+function logout() {
+  localStorage.clear();
+  location.href = "login.html";
+}
+
+// load user info
+const user = JSON.parse(localStorage.getItem("user"));
+if (user) {
+  document.getElementById("menuUserName").innerText = "Hi, " + user.name;
+  if (user.photo) document.getElementById("menuAvatar").src = user.photo;
+}
+</script>
+
+<h6>
+<footer align="center">
+  © 2026 Yasir – Original Innovation Project (all right reserved)
+</footer></h6>
+
+</body>
+</html>
