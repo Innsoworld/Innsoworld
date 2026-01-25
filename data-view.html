@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Saved User Data</title>
+  <style>
+    body {
+      background:#0f172a;
+      color:white;
+      font-family:Arial;
+      padding:20px;
+    }
+    .box {
+      background:#1e293b;
+      padding:15px;
+      margin-bottom:20px;
+      border-radius:6px;
+    }
+    h3 {
+      color:#38bdf8;
+    }
+    pre {
+      white-space:pre-wrap;
+    }
+  </style>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Change the Future – Solve Real World Problems</title>
+
+<meta name="description" content="A global innovation platform where real world problems are shown on a map and solved step by step through questioning, research, and solution design.">
+
+<meta name="keywords" content="innovation, problem solving, world problems, environment, research, solutions, students, social impact">
+
+<meta name="author" content="Yasir">
+
+
+</head>
+
+<body>
+
+<h2>Saved Research & Solutions</h2>
+
+<div id="output"></div>
+
+<script>
+  const data =
+    JSON.parse(localStorage.getItem("userData")) || {};
+
+  const output = document.getElementById("output");
+
+  if (Object.keys(data).length === 0) {
+    output.innerHTML = "<p>No data saved yet.</p>";
+  }
+
+  for (let id in data) {
+    const d = document.createElement("div");
+    d.className = "box";
+
+    d.innerHTML = `
+      <h3>Problem ID: ${id}</h3>
+      <strong>Research:</strong>
+      <pre>${data[id].research || "Not written"}</pre>
+
+      <strong>Solution:</strong>
+      <pre>${data[id].solution || "Not written"}</pre>
+    `;
+
+    output.appendChild(d);
+  }
+</script>
+
+</body>
+</html>

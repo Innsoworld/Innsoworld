@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Solutions</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    header {
+      padding: 26px 20px;
+      text-align: center;
+      background: rgba(2,6,23,0.95);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+    }
+
+    h1 {
+      color: #38bdf8;
+      margin-bottom: 6px;
+    }
+
+    h3 {
+      font-weight: normal;
+      font-size: 15px;
+      color: #94a3b8;
+    }
+
+    section {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px 22px 50px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+      position: relative;
+    }
+
+    .title {
+      font-size: 18px;
+      color: #38bdf8;
+      margin-bottom: 6px;
+    }
+
+    .status {
+      font-size: 13px;
+      color: #cbd5f5;
+      margin-bottom: 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 10px 18px;
+      background: linear-gradient(145deg, #38bdf8, #0ea5e9);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      color: #020617;
+      box-shadow: 0 10px 24px rgba(56,189,248,0.45);
+    }
+
+    .empty {
+      text-align: center;
+      color: #94a3b8;
+      margin-top: 60px;
+    }
+
+    /* THREE DOT MENU */
+    .dots {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #94a3b8;
+      user-select: none;
+    }
+
+    .dots:hover {
+      color: #38bdf8;
+    }
+
+    .menu {
+      position: absolute;
+      top: 40px;
+      right: 16px;
+      background: #020617;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      display: none;
+      z-index: 10;
+      overflow: hidden;
+    }
+
+    .menu div {
+      padding: 10px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      color: #ef4444;
+    }
+
+    .menu div:hover {
+      background: rgba(255,255,255,0.08);
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>💡 My Solutions</h1>
+  <h3>Your ideas, your progress, your impact</h3>
+</header>
+
+<section id="solutionList"></section>
+
+<script src="problems.js"></script>
+
+<script>
+  const container = document.getElementById("solutionList");
+  const data = JSON.parse(localStorage.getItem("userData")) || {};
+  const ids = Object.keys(data);
+
+  if (ids.length === 0) {
+    container.innerHTML = `
+      <div class="empty">
+        You haven’t worked on any problem yet.<br>
+        Go to the map and start solving one.
+      </div>
+    `;
+  }
+
+  ids.forEach(id => {
+    const p = PROBLEMS[id];
+    if (!p) return;
+
+    const d = data[id];
+
+    let status = "Started";
+    if (d.prototype) status = "Prototype Ready";
+    else if (d.solution) status = "Solution Written";
+    else if (d.research) status = "Research Done";
+
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <div class="dots" onclick="toggleMenu('${id}')">⋮</div>
+
+      <div class="menu" id="menu-${id}">
+        <div onclick="deleteSolution('${id}')">Delete</div>
+      </div>
+
+      <div class="title">${p.title}</div>
+      <div class="status">Status: ${status}</div>
+
+      <div class="actions">
+        <button onclick="openSolution('${id}')">Open Solution</button>
+      </div>
+    `;
+
+    container.appendChild(card);
+  });
+
+  function openSolution(id) {
+    location.href = "solution.html?id=" + id;
+  }
+
+  function toggleMenu(id) {
+    document.querySelectorAll(".menu").forEach(m => m.style.display = "none");
+    const menu = document.getElementById("menu-" + id);
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+  }
+
+  function deleteSolution(id) {
+    if (!confirm("Delete this solution permanently?")) return;
+    delete data[id];
+    localStorage.setItem("userData", JSON.stringify(data));
+    location.reload();
+  }
+
+  // close menus on outside click
+  document.addEventListener("click", e => {
+    if (!e.target.classList.contains("dots")) {
+      document.querySelectorAll(".menu").forEach(m => m.style.display = "none");
+    }
+  });
+</script>
+
+</body>
+</html>
+

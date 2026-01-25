@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login – Innsoworld</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #020617, #0f172a);
+      font-family: Arial, sans-serif;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 380px;
+      background: rgba(255,255,255,0.05);
+      padding: 26px;
+      border-radius: 18px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+      text-align: center;
+    }
+
+    h2 {
+      color: #38bdf8;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 14px;
+      opacity: 0.85;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border-radius: 14px;
+      border: none;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      font-size: 14px;
+    }
+
+    input:focus {
+      outline: 1px solid #38bdf8;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 14px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #38bdf8, #0ea5e9);
+      color: #020617;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 14px 40px rgba(56,189,248,0.45);
+    }
+
+    .divider {
+      margin: 18px 0;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+
+    .google {
+      background: white;
+      color: #020617;
+    }
+
+    .note {
+      margin-top: 16px;
+      font-size: 12px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>Welcome to Innsoworld</h2>
+  <p>Think. Build. Change the world.</p>
+
+  <input id="name" placeholder="Your Name">
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+
+  <button onclick="login()">Continue</button>
+
+  <div class="divider">or</div>
+
+  <button class="google" onclick="googleLogin()">Login with Google</button>
+
+  <div class="note">
+    This is an early-stage prototype.<br>
+    Your data stays on this device.
+  </div>
+</div>
+
+<script>
+  // Auto redirect if already logged in
+  if (localStorage.getItem("user")) {
+    location.href = "index.html";
+  }
+
+  function login() {
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (!name || !email || !password) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    // Save user locally
+    localStorage.setItem("user", JSON.stringify({
+      name,
+      email
+    }));
+
+    localStorage.setItem("username", name);
+
+    location.href = "index.html";
+  }
+
+  function googleLogin() {
+    // UI simulation for now
+    const name = prompt("Enter your name to continue with Google:");
+    if (!name) return;
+
+    localStorage.setItem("user", JSON.stringify({
+      name,
+      email: "google-user"
+    }));
+
+    localStorage.setItem("username", name);
+
+    location.href = "index.html";
+  }
+</script>
+
+</body>
+</html>

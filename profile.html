@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Profile – Innsoworld</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #020617, #0f172a);
+      color: #e5e7eb;
+      text-align: center;
+    }
+
+    .card {
+      max-width: 420px;
+      margin: 80px auto;
+      background: rgba(255,255,255,0.05);
+      border-radius: 18px;
+      padding: 30px 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+    }
+
+    img {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 3px solid #38bdf8;
+      object-fit: cover;
+    }
+
+    h2 {
+      margin: 16px 0 6px;
+      color: #38bdf8;
+    }
+
+    p {
+      opacity: 0.9;
+      font-size: 14px;
+    }
+
+    .stat {
+      margin-top: 18px;
+      font-size: 15px;
+      color: #cbd5f5;
+    }
+
+    button {
+      margin-top: 28px;
+      padding: 12px 26px;
+      border-radius: 14px;
+      border: none;
+      background: #38bdf8;
+      color: #020617;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0ea5e9;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+  <img id="profilePic" src="images/default-user.png">
+
+  <h2 id="userName"></h2>
+  <p>Innovator at Innsoworld</p>
+
+  <div class="stat">
+    Ideas worked on: <span id="ideaCount">0</span>
+  </div>
+
+  <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) location.href = "login.html";
+
+  document.getElementById("userName").innerText = user.name;
+
+  if (user.photo) {
+    document.getElementById("profilePic").src = user.photo;
+  }
+
+  const data = JSON.parse(localStorage.getItem("userData")) || {};
+  document.getElementById("ideaCount").innerText =
+    Object.keys(data).length;
+
+  function logout() {
+    localStorage.removeItem("user");
+    location.href = "login.html";
+  }
+</script>
+
+</body>
+</html>
+

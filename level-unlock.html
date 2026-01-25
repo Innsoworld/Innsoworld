@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Level Unlocked</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Change the Future – Solve Real World Problems</title>
+
+<meta name="description" content="A global innovation platform where real world problems are shown on a map and solved step by step through questioning, research, and solution design.">
+
+<meta name="keywords" content="innovation, problem solving, world problems, environment, research, solutions, students, social impact">
+
+<meta name="author" content="Yasir">
+
+
+  <style>
+    body {
+      background:#0f172a;
+      color:white;
+      font-family:Arial;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
+      margin:0;
+      text-align:center;
+    }
+
+    .box { max-width:600px; }
+
+    img {
+      width:100%;
+      border-radius:12px;
+      margin:20px 0;
+      filter:blur(var(--blur));
+    }
+
+    button {
+      padding:12px 22px;
+      background:#38bdf8;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2 id="title"></h2>
+  <p id="message"></p>
+  <img id="img">
+  <button onclick="continueLevel()">Continue</button>
+</div>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id");
+  const level = Number(params.get("level"));
+
+  if (!id || !level) {
+    location.href = "index.html";
+  }
+
+  const levels = {
+    1: {
+      text: "Understanding the problem",
+      blur: "22px",
+      next: "questions.html"
+    },
+    2: {
+      text: "Learning the reality",
+      blur: "14px",
+      next: "research.html"
+    },
+    3: {
+      text: "Designing change",
+      blur: "6px",
+      next: "solution.html"
+    }
+  };
+
+  const current = levels[level];
+  if (!current) {
+    location.href = "index.html";
+  }
+
+  document.documentElement.style.setProperty("--blur", current.blur);
+  document.getElementById("title").innerText =
+    "🎉 Level " + level + " Unlocked";
+  document.getElementById("message").innerText =
+    current.text;
+
+  // ✅ SOLVED IMAGE USED AT ALL LEVELS (BLUR CONTROLS VISIBILITY)
+  document.getElementById("img").src =
+    "images/" + id + "_solve.jpg";
+
+  function continueLevel() {
+    location.href = current.next + "?id=" + id;
+  }
+</script>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Solution Completed</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description" content="A global innovation platform where real world problems are shown on a map and solved step by step through questioning, research, and solution design.">
+
+<meta name="keywords" content="innovation, problem solving, world problems, environment, research, solutions, students, social impact">
+
+<meta name="author" content="Yasir">
+
+  <style>
+    body {
+      margin:0;
+      background:#020617;
+      color:white;
+      font-family:Arial, sans-serif;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
+      text-align:center;
+    }
+
+    .box {
+      max-width:700px;
+    }
+
+    img {
+      width:100%;
+      border-radius:16px;
+      margin:20px 0;
+      box-shadow:0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    h2 {
+      color:#38bdf8;
+      margin-bottom:10px;
+    }
+
+    p {
+      opacity:0.9;
+      line-height:1.6;
+    }
+
+    h6 {
+      font-size:12px;
+      opacity:0.7;
+      line-height:1.5;
+    }
+
+    button {
+      padding:14px 30px;
+      background:#38bdf8;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+      font-size:16px;
+      color:#020617;
+      font-weight:bold;
+      margin-top:20px;
+      box-shadow:0 12px 30px rgba(56,189,248,0.45);
+      transition:transform 0.3s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      transform:translateY(-3px);
+      box-shadow:0 18px 45px rgba(56,189,248,0.6);
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>🌱 This is what change looks like</h2>
+
+  <p>
+    You didn’t just read.  
+    You thought, researched, and designed a solution.
+  </p>
+
+  <img id="img">
+
+  <h6>
+    Disclaimer:<br>
+    This image represents a possible future after solving the problem.  
+    Real outcomes depend on execution, testing, and iteration.
+  </h6>
+
+  <button onclick="goNext()">Next → Prototype</button>
+</div>
+
+
+<script>
+  const id = new URLSearchParams(location.search).get("id");
+  if (!id) location.href = "index.html";
+
+  // show solved future image
+  document.getElementById("img").src =
+    "images/" + id + "_solve.jpg";
+
+  function goNext() {
+    location.href = "prototype.html?id=" + id;
+  }
+</script>
+
+</body>
+</html>
