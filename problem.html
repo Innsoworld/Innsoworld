@@ -494,6 +494,9 @@ if (user) {
   if (user.photo) document.getElementById("menuAvatar").src = user.photo;
 }
 
+let fbFeel = null;
+let fbClarity = null;
+
 function openFeedback() {
   document.getElementById("feedbackBox").style.display = "block";
 }
@@ -502,25 +505,33 @@ function closeFeedback() {
   document.getElementById("feedbackBox").style.display = "none";
 }
 
+function setFeel(val) {
+  fbFeel = val;
+}
+
+function setClarity(val) {
+  fbClarity = val;
+}
+
 function submitFeedback() {
   const feedback = {
     problemId: id || "general",
-    understood: document.getElementById("fb1").value,
-    confused: document.getElementById("fb2").value,
-    idea: document.getElementById("fb3").value,
+    feel: fbFeel,
+    clarity: fbClarity,
+    suggestion: document.getElementById("fbText").value,
     time: new Date().toISOString()
   };
 
-  let allFeedback = JSON.parse(localStorage.getItem("innsoworld_feedback") || "[]");
-  allFeedback.push(feedback);
-  localStorage.setItem("innsoworld_feedback", JSON.stringify(allFeedback));
+  let all = JSON.parse(localStorage.getItem("innsoworld_feedback") || "[]");
+  all.push(feedback);
+  localStorage.setItem("innsoworld_feedback", JSON.stringify(all));
 
-  alert("Thank you! Your feedback was saved.");
+  alert("Thank you! Your feedback helps a lot.");
   closeFeedback();
 }
 
-</script>
 
+</script>
 <div id="feedbackBox" style="
   display:none;
   position:fixed;
@@ -529,27 +540,44 @@ function submitFeedback() {
   z-index:99999;
   padding:30px 20px;
   overflow:auto;
+  text-align:center;
 ">
 
-  <h2>Quick Feedback</h2>
-  <p style="opacity:0.8;">Your feedback helps improve Innsoworld.</p>
+  <h2 style="margin-bottom:6px;">Quick feedback</h2>
+  <p style="opacity:0.8; font-size:14px;">
+    Help improve Innsoworld (30 seconds)
+  </p>
 
-  <p>1. What did you understand from this problem?</p>
-  <textarea id="fb1" rows="3" style="width:100%;"></textarea>
+  <!-- QUESTION 1 -->
+  <p style="margin-top:26px;">How did this problem feel?</p>
+  <div style="font-size:26px;">
+    <span onclick="setFeel('confusing')">😕</span>
+    <span onclick="setFeel('interesting')">🙂</span>
+    <span onclick="setFeel('impactful')">🔥</span>
+  </div>
 
-  <p>2. What confused you?</p>
-  <textarea id="fb2" rows="3" style="width:100%;"></textarea>
+  <!-- QUESTION 2 -->
+  <p style="margin-top:26px;">Was it easy to understand?</p>
+  <div>
+    <button onclick="setClarity('yes')">Yes</button>
+    <button onclick="setClarity('partly')">Partly</button>
+    <button onclick="setClarity('no')">No</button>
+  </div>
 
-  <p>3. One idea or improvement you suggest?</p>
-  <textarea id="fb3" rows="3" style="width:100%;"></textarea>
+  <!-- QUESTION 3 -->
+  <p style="margin-top:26px;">One small suggestion (optional)</p>
+  <textarea id="fbText" rows="2" style="width:100%;"></textarea>
 
   <br><br>
 
-  <button onclick="submitFeedback()">Submit</button>
+  <button onclick="submitFeedback()" style="margin-right:10px;">
+    Submit
+  </button>
   <button onclick="closeFeedback()" style="background:#1e293b;color:#94a3b8;">
-    Cancel
+    Skip
   </button>
 </div>
+
 
 </body>
 </html>
