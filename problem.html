@@ -504,11 +504,10 @@ if (user) {
 }
 
 function openFeedback() {
-  document.getElementById("feedbackBox").style.display = "block";
-}
-
-function closeFeedback() {
-  document.getElementById("feedbackBox").style.display = "none";
+  window.open(
+    "https://docs.google.com/forms/d/e/1FAIpQLSeZCBme-CIu20WLXkk9-SgKDWb-Z4ohzGh6F-isBgG5vZwGfg/viewform",
+    "_blank"
+  );
 }
 
 
@@ -516,73 +515,16 @@ function closeFeedback() {
 
 </script>
 
-<div id="feedbackBox" style="
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(2,6,23,0.95);
-  z-index:99999;
-  padding:20px;
-  overflow:auto;
-">
-
-  <div style="
-    max-width:720px;
-    margin:auto;
-    background:#020617;
-    border-radius:16px;
-    padding:16px;
+<div style="position:fixed; bottom:20px; right:20px; z-index:9999;">
+  <button onclick="openFeedback()" style="
+    background:#1e293b;
+    color:#e5e7eb;
+    padding:12px 18px;
+    border-radius:14px;
+    font-size:14px;
   ">
-    <div style="text-align:right;">
-      <button onclick="closeFeedback()" style="
-        background:#1e293b;
-        color:#e5e7eb;
-        border-radius:10px;
-        padding:6px 10px;
-      ">
-        ✕ Close
-      </button>
-    </div>
-
-    <div id="feedbackBox" style="
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(2,6,23,0.95);
-  z-index:99999;
-  padding:20px;
-  overflow:auto;
-">
-
-  <div style="
-    max-width:720px;
-    margin:auto;
-    background:#020617;
-    border-radius:16px;
-    padding:16px;
-  ">
-    <div style="text-align:right;">
-      <button onclick="closeFeedback()" style="
-        background:#1e293b;
-        color:#e5e7eb;
-        border-radius:10px;
-        padding:6px 10px;
-      ">
-        ✕ Close
-      </button>
-    </div>
-
-    <iframe
-      src="https://docs.google.com/forms/d/e/1FAIpQLSeZCBme-CIu20WLXkk9-SgKDWb-Z4ohzGh6F-isBgG5vZwGfg/viewform?embedded=true"
-      width="100%"
-      height="850"
-      frameborder="0"
-      marginheight="0"
-      marginwidth="0">
-      Loading…
-    </iframe>
-
-  </div>
+    💬 Give Feedback (1 min)
+  </button>
 </div>
 
 
