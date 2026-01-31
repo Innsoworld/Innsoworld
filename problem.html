@@ -450,10 +450,10 @@
 
   let startTime = Date.now();
   setTimeout(() => {
-    const seconds = Math.floor((Date.now() - startTime) / 3000);
+    const seconds = Math.floor((Date.now() - startTime) / 1000);
     timeSpent.innerText = "You have spent " +seconds + " seconds understanding this problem.";
     realityCounter.style.display = "block";
-  }, 30000);
+  }, 40000);
 
   function chooseAction(type) {
     realityCounter.style.display = "none";
