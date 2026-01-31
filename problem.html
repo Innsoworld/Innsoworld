@@ -261,28 +261,6 @@
   color: #ef4444;
 }
 
-.feedback-option {
-  padding: 10px 16px;
-  margin: 6px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.15);
-  background: rgba(255,255,255,0.05);
-  color: #e5e7eb;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-.feedback-option:hover {
-  background: rgba(255,255,255,0.12);
-}
-
-.feedback-option.selected {
-  background: linear-gradient(145deg, #38bdf8, #0ea5e9);
-  color: #020617;
-  font-weight: bold;
-  border-color: transparent;
-}
 
   </style>
 </head>
@@ -364,17 +342,18 @@
 
   <button onclick="next()">Next → Questions</button>
 
-  <div style="margin-top:40px; text-align:center;">
+ <div style="position:fixed; bottom:20px; right:20px; z-index:9999;">
   <button onclick="openFeedback()" style="
     background:#1e293b;
     color:#e5e7eb;
-    border-radius:12px;
-    padding:12px 22px;
+    padding:12px 18px;
+    border-radius:14px;
     font-size:14px;
   ">
-    💬 Give Feedback (1 minute)
+    💬 Give Feedback
   </button>
 </div>
+
 
 </section>
 
@@ -471,10 +450,10 @@
 
   let startTime = Date.now();
   setTimeout(() => {
-    const seconds = Math.floor((Date.now() - startTime) / 1000);
-    timeSpent.innerText = "You have spent " + seconds + " seconds understanding this problem.";
+    const seconds = Math.floor((Date.now() - startTime) / 3000);
+    timeSpent.innerText = "You have spent " +seconds + " seconds understanding this problem.";
     realityCounter.style.display = "block";
-  }, 10000);
+  }, 30000);
 
   function chooseAction(type) {
     realityCounter.style.display = "none";
@@ -524,105 +503,97 @@ if (user) {
   if (user.photo) document.getElementById("menuAvatar").src = user.photo;
 }
 
-let fbFeel=null, fbClarity=null, fbStuck=null;
-let fbReal=null, fbReturn=null, fbRecommend=null;
+function openFeedback() {
+  document.getElementById("feedbackBox").style.display = "block";
+}
 
-function openFeedback(){ feedbackBox.style.display="block"; }
-function closeFeedback(){ feedbackBox.style.display="none"; }
-
-function setFeel(v){ fbFeel=v; }
-function setClarity(v){ fbClarity=v; }
-function setStuck(v){ fbStuck=v; }
-function setReal(v){ fbReal=v; }
-function setReturn(v){ fbReturn=v; }
-function setRecommend(v){ fbRecommend=v; }
-
-function submitFeedback(){
-  const data={
-    problemId: id || "general",
-    feel: fbFeel,
-    clarity: fbClarity,
-    stuckAt: fbStuck,
-    feltReal: fbReal,
-    returnIntent: fbReturn,
-    recommend: fbRecommend,
-    suggestion: fbText.value,
-    time: new Date().toISOString()
-  };
-
-  let all = JSON.parse(localStorage.getItem("innsoworld_feedback") || "[]");
-  all.push(data);
-  localStorage.setItem("innsoworld_feedback", JSON.stringify(all));
-
-  alert("Thanks! You just helped improve Innsoworld.");
-  closeFeedback();
+function closeFeedback() {
+  document.getElementById("feedbackBox").style.display = "none";
 }
 
 
 
+
 </script>
+
 <div id="feedbackBox" style="
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(2,6,23,0.97);
+  background:rgba(2,6,23,0.95);
   z-index:99999;
-  padding:30px 20px;
+  padding:20px;
   overflow:auto;
-  text-align:center;
 ">
 
-  <h2>Quick Feedback</h2>
-  <p style="opacity:0.8;font-size:14px;">Help improve Innsoworld (30 seconds)</p>
+  <div style="
+    max-width:720px;
+    margin:auto;
+    background:#020617;
+    border-radius:16px;
+    padding:16px;
+  ">
+    <div style="text-align:right;">
+      <button onclick="closeFeedback()" style="
+        background:#1e293b;
+        color:#e5e7eb;
+        border-radius:10px;
+        padding:6px 10px;
+      ">
+        ✕ Close
+      </button>
+    </div>
 
-  <!-- Q1 -->
-  <p>How did this problem feel?</p>
-  <div style="font-size:26px;">
-    <span onclick="setFeel('confusing')">😕</span>
-    <span onclick="setFeel('interesting')">🙂</span>
-    <span onclick="setFeel('impactful')">🔥</span>
+    <iframe
+      src="<div id="feedbackBox" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(2,6,23,0.95);
+  z-index:99999;
+  padding:20px;
+  overflow:auto;
+">
+
+  <div style="
+    max-width:720px;
+    margin:auto;
+    background:#020617;
+    border-radius:16px;
+    padding:16px;
+  ">
+    <div style="text-align:right;">
+      <button onclick="closeFeedback()" style="
+        background:#1e293b;
+        color:#e5e7eb;
+        border-radius:10px;
+        padding:6px 10px;
+      ">
+        ✕ Close
+      </button>
+    </div>
+
+    <iframe
+      src="https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true"
+      width="100%"
+      height="850"
+      frameborder="0"
+      marginheight="0"
+      marginwidth="0">
+      Loading…
+    </iframe>
   </div>
-
-  <!-- Q2 -->
-  <p>Was it easy to understand?</p>
-  <button onclick="setClarity('yes')">Yes</button>
-  <button onclick="setClarity('partly')">Partly</button>
-  <button onclick="setClarity('no')">No</button>
-
-  <!-- Q3 -->
-  <p>Where did you feel stuck?</p>
-  <button onclick="setStuck('story')">Story</button>
-  <button onclick="setStuck('overview')">Overview</button>
-  <button onclick="setStuck('causes')">Causes</button>
-  <button onclick="setStuck('effects')">Effects</button>
-  <button onclick="setStuck('nowhere')">Nowhere</button>
-
-  <!-- Q4 -->
-  <p>Did this feel real to you?</p>
-  <button onclick="setReal('yes')">Yes</button>
-  <button onclick="setReal('little')">A little</button>
-  <button onclick="setReal('no')">No</button>
-
-  <!-- Q5 -->
-  <p>Would you explore another problem?</p>
-  <button onclick="setReturn('yes')">Yes</button>
-  <button onclick="setReturn('maybe')">Maybe</button>
-  <button onclick="setReturn('no')">No</button>
-
-  <!-- Q6 -->
-  <p>Would you recommend this to a friend?</p>
-  <button onclick="setRecommend('yes')">Yes</button>
-  <button onclick="setRecommend('no')">No</button>
-
-  <!-- Q7 -->
-  <p>One small suggestion (optional)</p>
-  <textarea id="fbText" rows="2" style="width:100%;"></textarea>
-
-  <br><br>
-  <button onclick="submitFeedback()">Submit</button>
-  <button onclick="closeFeedback()">Skip</button>
 </div>
-
+"
+      width="100%"
+      height="850"
+      frameborder="0"
+      marginheight="0"
+      marginwidth="0">
+      Loading…
+    </iframe>
+  </div>
+</div>
 
 </body>
 </html>
