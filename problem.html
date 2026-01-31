@@ -342,6 +342,18 @@
 
   <button onclick="next()">Next → Questions</button>
 
+  <div style="margin-top:40px; text-align:center;">
+  <button onclick="openFeedback()" style="
+    background:#1e293b;
+    color:#e5e7eb;
+    border-radius:12px;
+    padding:12px 22px;
+    font-size:14px;
+  ">
+    💬 Give Feedback (1 minute)
+  </button>
+</div>
+
 </section>
 
 <div id="flyingToken">🪙</div>
@@ -481,7 +493,63 @@ if (user) {
   document.getElementById("menuUserName").innerText = "Hi, " + user.name;
   if (user.photo) document.getElementById("menuAvatar").src = user.photo;
 }
+
+function openFeedback() {
+  document.getElementById("feedbackBox").style.display = "block";
+}
+
+function closeFeedback() {
+  document.getElementById("feedbackBox").style.display = "none";
+}
+
+function submitFeedback() {
+  const feedback = {
+    problemId: id || "general",
+    understood: document.getElementById("fb1").value,
+    confused: document.getElementById("fb2").value,
+    idea: document.getElementById("fb3").value,
+    time: new Date().toISOString()
+  };
+
+  let allFeedback = JSON.parse(localStorage.getItem("innsoworld_feedback") || "[]");
+  allFeedback.push(feedback);
+  localStorage.setItem("innsoworld_feedback", JSON.stringify(allFeedback));
+
+  alert("Thank you! Your feedback was saved.");
+  closeFeedback();
+}
+
 </script>
+
+<div id="feedbackBox" style="
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(2,6,23,0.97);
+  z-index:99999;
+  padding:30px 20px;
+  overflow:auto;
+">
+
+  <h2>Quick Feedback</h2>
+  <p style="opacity:0.8;">Your feedback helps improve Innsoworld.</p>
+
+  <p>1. What did you understand from this problem?</p>
+  <textarea id="fb1" rows="3" style="width:100%;"></textarea>
+
+  <p>2. What confused you?</p>
+  <textarea id="fb2" rows="3" style="width:100%;"></textarea>
+
+  <p>3. One idea or improvement you suggest?</p>
+  <textarea id="fb3" rows="3" style="width:100%;"></textarea>
+
+  <br><br>
+
+  <button onclick="submitFeedback()">Submit</button>
+  <button onclick="closeFeedback()" style="background:#1e293b;color:#94a3b8;">
+    Cancel
+  </button>
+</div>
 
 </body>
 </html>
