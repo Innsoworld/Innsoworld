@@ -261,6 +261,28 @@
   color: #ef4444;
 }
 
+.feedback-option {
+  padding: 10px 16px;
+  margin: 6px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.05);
+  color: #e5e7eb;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.feedback-option:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.feedback-option.selected {
+  background: linear-gradient(145deg, #38bdf8, #0ea5e9);
+  color: #020617;
+  font-weight: bold;
+  border-color: transparent;
+}
 
   </style>
 </head>
@@ -438,6 +460,14 @@
       location.href = "level-unlock.html?id=" + id + "&level=1";
     }, 900);
   }
+  function selectOption(btn) {
+  const group = btn.getAttribute("data-group");
+  const all = document.querySelectorAll(`[data-group="${group}"]`);
+
+  all.forEach(b => b.classList.remove("selected"));
+  btn.classList.add("selected");
+}
+
 
   let startTime = Date.now();
   setTimeout(() => {
